@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Do You Hate Me? 💔</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg,#ff4d6d,#ff99ac);
+    font-family: Comic Sans MS;
+    text-align: center;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    transition: 0.5s;
+}
+
+h1 { margin-top: 120px; font-size: 40px; }
+
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 20px;
+}
+
+#yesBtn { background: red; color: white; }
+#noBtn { background: white; color: red; position: absolute; }
+
+#warning { font-size: 22px; margin-top: 20px; }
+
+/* HELL MODE */
+.hell { background: black !important; color: red !important; cursor: none; }
+.shake { animation: shake 0.05s infinite; }
+.flash { animation: flash 0.15s infinite; }
+
+@keyframes shake {
+0%{transform:translate(10px,10px)}
+25%{transform:translate(-10px,-10px)}
+50%{transform:translate(10px,-10px)}
+75%{transform:translate(-10px,10px)}
+100%{transform:translate(0,0)}
+}
+
+@keyframes flash {
+0%{background:black}
+50%{background:darkred}
+100%{background:black}
+}
+
+/* floating FAAAAHHH */
+.floating{
+position:absolute;
+color:red;
+font-weight:bold;
+pointer-events:none;
+animation: floatUp linear forwards;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0) scale(1);opacity:1}
+100%{transform:translateY(-400px) scale(2);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="title">Do you hate me? 😏</h1>
+<button id="yesBtn">Yes 😈</button>
+<button id="noBtn">No 🙂</button>
+<div id="warning"></div>
+
+<audio id="sound" src="faahhh.mp3" preload="auto"></audio>
+
+<script>
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+const warning=document.getElementById("warning");
+const audio=document.getElementById("sound");
+const title=document.getElementById("title");
+
+let yesSize=20;
+let spawnInterval,volumeInterval;
+
+const messages=[
+"Nice try 💀",
+"You can't escape 😈",
+"Bro fighting destiny 😂",
+"Free will disabled 🔒",
+"ANAKSHA PRADEEP already knows",
+"Stop running 🏃",
+"Acceptance stage loading...",
+"You will click YES eventually"
+];
+
+// NO button runs away
+noBtn.addEventListener("mouseover",()=>{
+const x=Math.random()*(window.innerWidth-120);
+const y=Math.random()*(window.innerHeight-120);
+noBtn.style.left=x+"px";
+noBtn.style.top=y+"px";
+
+yesSize+=5;
+yesBtn.style.fontSize=yesSize+"px";
+yesBtn.style.padding=yesSize+"px";
+
+warning.innerText=messages[Math.floor(Math.random()*messages.length)];
+});
+
+// YES → HELL
+yesBtn.addEventListener("click",()=>{
+
+document.body.classList.add("hell","shake","flash");
+
+audio.loop=true;
+audio.volume=0.1;
+audio.play();
+
+volumeInterval=setInterval(()=>{
+if(audio.volume<1) audio.volume+=0.05;
+},400);
+
+title.innerText="FAAAHHH 😈🔥";
+yesBtn.style.display="none";
+noBtn.style.display="none";
+warning.innerText="";
+
+spawnInterval=setInterval(()=>{
+const t=document.createElement("div");
+t.className="floating";
+t.innerHTML="FAAAHHH 🔥😈";
+t.style.left=Math.random()*window.innerWidth+"px";
+t.style.top=Math.random()*window.innerHeight+"px";
+t.style.fontSize=(20+Math.random()*60)+"px";
+t.style.animationDuration=(2+Math.random()*2)+"s";
+document.body.appendChild(t);
+setTimeout(()=>t.remove(),4000);
+},100);
+
+});
+
+// ESC to save victim
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape"){
+audio.pause();
+audio.currentTime=0;
+clearInterval(spawnInterval);
+clearInterval(volumeInterval);
+location.reload();
+}
+});
+</script>
+
+</body>
+</html>
+
